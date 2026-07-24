@@ -2,22 +2,43 @@
 # Stores project-wide constants used throughout the game 
 # Easier to maintain and avoids hardcoding values throughout project 
 
+from pathlib import Path
 
 # Application Information
 
 APP_NAME = "Advanced Tic Tac Toe"
 APP_VERSION = "1.0.0"
 
+# Project Directories
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+ASSETS_DIRECTORY = PROJECT_ROOT / "assets"
+DATA_DIRECTORY = PROJECT_ROOT / "data"
+
+AUDIO_DIRECTORY = ASSETS_DIRECTORY / "audio"
+FONTS_DIRECTORY = ASSETS_DIRECTORY / "fonts"
+ICONS_DIRECTORY = ASSETS_DIRECTORY / "icons"
+IMAGES_DIRECTORY = ASSETS_DIRECTORY / "images"
+LOGO_DIRECTORY = ASSETS_DIRECTORY / "logo"
+
+# Data Files
+
+SETTINGS_FILE = DATA_DIRECTORY / "settings.json"
+STATISTICS_FILE = DATA_DIRECTORY / "statistics.json"
+
 # Window Configuration
 
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 700
+
 WINDOW_MIN_WIDTH = 700
 WINDOW_MIN_HEIGHT = 550
 
 # Board Configuration
 
 BOARD_SIZE = 3
+
 EMPTY_CELL = ""
 
 PLAYER_X = "X"
@@ -63,11 +84,6 @@ BUTTON_FONT = ("Segoe UI", 12)
 GAME_FONT = ("Segoe UI", 34, "bold")
 SMALL_FONT = ("Segoe UI", 10)
 
-# Data File Paths
-
-SETTINGS_FILE = "data/settings.json"
-STATISTICS_FILE = "data/statistics.json"
-
 # Default Settings
 
 DEFAULT_SETTINGS = {
@@ -91,9 +107,8 @@ DEFAULT_STATISTICS = {
 
 ANIMATION_DELAY = 15
 
-# Sound
+# Sound Files
 
-BUTTON_CLICK_SOUND = "assets/audio/button_click.wav"
-WIN_SOUND = "assets/audio/win.wav"
-DRAW_SOUND = "assets/audio/draw.wav"
-
+BUTTON_CLICK_SOUND = AUDIO_DIRECTORY / "button_click.wav"
+WIN_SOUND = AUDIO_DIRECTORY / "win.wav"
+DRAW_SOUND = AUDIO_DIRECTORY / "draw.wav" 
