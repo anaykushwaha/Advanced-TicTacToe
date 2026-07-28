@@ -56,6 +56,34 @@ class Board:
         self.board[row][col] = symbol
         return True
 
+    def set_cell(
+        self,
+        row: int,
+        col: int,
+        value: str,
+    ) -> None: 
+        # Sets the value of a board cell 
+
+        self.board[row][col] = value
+
+    def clear_cell(
+        self,
+        row: int,
+        col: int,
+    ) -> None: 
+        # Clears a board cell 
+
+        self.board[row][col] = EMPTY_CELL
+
+    def get_cell(
+        self,
+        row: int,
+        col: int,
+    ) -> str: 
+        # Returns the value stored in a cell 
+        
+        return self.board[row][col] 
+
     def get_available_moves(self) -> List[Tuple[int, int]]: 
         # Returns every available move 
 
