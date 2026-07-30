@@ -23,6 +23,11 @@ from ui.theme import (
     PLAYER_O,
     X_COLOR,
     O_COLOR,
+    STATUS_READY,
+    STATUS_PLAYER_TURN,
+    STATUS_DRAW,
+    STATUS_WINNER,
+    STATUS_AI_THINKING,
 )
 
 
@@ -188,9 +193,6 @@ class MainWindow:
         col: int,
     ) -> None: 
         # Handles a click on the game board 
-        """
-        Handle a click on the game board.
-        """
 
         # Ignore clicks after the game has ended.
         if self.game.is_game_over():
@@ -240,10 +242,6 @@ class MainWindow:
 
     def _update_status(self) -> None: 
         # Refreshes the state message shown beneath the title 
-        """
-        Refresh the status message shown
-        beneath the title.
-        """
 
         if self.game.is_game_over():
             return
@@ -269,7 +267,7 @@ class MainWindow:
             self.draw_var.set(
                 f"Draws : {self.draws}"
             )
-            self.status_var.set("It's a Draw!")
+            self.status_var.set(STATUS_DRAW) 
 
         else:
             if winner == PLAYER_X:
@@ -285,7 +283,7 @@ class MainWindow:
                 )
 
             self.status_var.set(
-                f"{winner} Wins!"
+                STATUS_WINNER.format(winner) 
             )
 
             winning_cells = self.game.get_winning_positions()
@@ -304,7 +302,7 @@ class MainWindow:
         if self.game.is_game_over():
             return
 
-        self.status_var.set("AI is Thinking...")
+        self.status_var.set(STATUS_AI_THINKING) 
 
         self.root.update_idletasks()
 
