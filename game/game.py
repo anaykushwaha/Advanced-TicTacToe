@@ -48,6 +48,8 @@ class Game:
 
         # Whether the game has ended
         self.game_over = False 
+
+        self.winning_positions = [] 
     
     def switch_player(self) -> None: 
         # Switches the current player 
@@ -181,6 +183,16 @@ class Game:
             return self.player_two
 
         return None
+
+    def is_game_over(self) -> bool: 
+        # Returns whether the game has ended 
+
+        return self.game_over 
+
+    def get_winning_positions(self): 
+        # Returns the winning line 
+        
+        return self.winning_positions 
 
     def __str__(self) -> str: 
         # Returns a readable description of the game 
