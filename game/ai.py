@@ -128,6 +128,27 @@ class AIPlayer:
 
         return None 
 
+    def find_best_move(
+        self,
+        board,
+        current_player,
+    ): 
+        # Returns the best move based on the selected difficulty 
+
+        if self.difficulty == "Easy":
+            return self._easy_move(board)
+
+        elif self.difficulty == "Medium":
+            return self._medium_move(
+                board,
+                current_player,
+            )
+
+        return self._impossible_move(
+            board,
+            current_player,
+        )
+
     def _impossible_move(
         self,
         board: Board,
