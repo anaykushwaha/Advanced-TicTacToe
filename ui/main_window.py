@@ -29,7 +29,7 @@ from ui.theme import (
     STATUS_WINNER,
     STATUS_AI_THINKING,
 )
-
+from ui.dialogs import DialogManager 
 
 class MainWindow: 
     # Main application window 
@@ -365,6 +365,21 @@ class MainWindow:
         # Starts the Tkinter event loop 
 
         self.root.mainloop() 
+
+    def show_about(self):
+        DialogManager.show_about()
+
+
+    def show_statistics(self):
+        DialogManager.show_statistics(
+            self.x_score,
+            self.o_score,
+            self.draws,
+        )
+
+
+    def exit_application(self):
+        self.root.destroy()
 
 __all__ = [
     "MainWindow",
