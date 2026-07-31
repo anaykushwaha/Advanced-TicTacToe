@@ -1,10 +1,8 @@
-"""
-theme.py
+# theme.py
+# Contains all visual constants used by the Tkinter interface 
+# Keeping colors, fonts, dimensions, and spacing in one place 
+# makes the interface easier to maintain and customize.
 
-Contains all visual constants used by the Tkinter interface.
-Keeping colors, fonts, dimensions, and spacing in one place
-makes the interface easier to maintain and customize.
-"""
 
 # Window Configuration
 
