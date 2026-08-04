@@ -1,6 +1,5 @@
-# dialogs.py 
-# Contains resuable dialog windows used throughout the game application 
-
+# dialogs.py
+# Contains reusable dialog windows used throughout the game application
 
 from tkinter import messagebox
 
@@ -8,23 +7,29 @@ from ui.theme import (
     GAME_OVER_TITLE,
     RESET_TITLE,
     ABOUT_TITLE,
+    STATISTICS_TITLE,
+    CONFIRM_EXIT_TITLE,
+    CONFIRM_RESET_TITLE,
 )
 
 
-class DialogManager: 
-    # Collection of resable dialog windows 
+class DialogManager:
+    # Collection of reusable dialog windows
 
     @staticmethod
-    def show_game_over(message: str) -> None: 
-        # Displays the final game result 
+    def show_game_over(
+        message: str,
+    ) -> None:
+        # Displays the final game result
+
         messagebox.showinfo(
             GAME_OVER_TITLE,
             message,
         )
 
     @staticmethod
-    def ask_new_game() -> bool: 
-        # Asks the user whether they would like to start another game 
+    def ask_new_game() -> bool:
+        # Asks the user whether they would like to start another game
 
         return messagebox.askyesno(
             GAME_OVER_TITLE,
@@ -32,32 +37,47 @@ class DialogManager:
         )
 
     @staticmethod
-    def confirm_reset_scores() -> bool: 
-        # Asks the user to confirm that all scores should be reset 
+    def confirm_reset_scores() -> bool:
+        # Asks the user to confirm that all scores should be reset
 
         return messagebox.askyesno(
-            RESET_TITLE,
+            CONFIRM_RESET_TITLE,
             (
                 "Reset all scores?\n\n"
-                "This cannot be undone."
+                "This action cannot be undone."
             ),
-        ) 
+        )
 
     @staticmethod
-    def show_about() -> None: 
-        # Displays information about the application 
+    def confirm_exit() -> bool:
+        # Asks the user to confirm before closing the application
+
+        return messagebox.askyesno(
+            CONFIRM_EXIT_TITLE,
+            (
+                "Are you sure you want to exit "
+                "the game?"
+            ),
+        )
+
+    @staticmethod
+    def show_about() -> None:
+        # Displays information about the application
 
         messagebox.showinfo(
             ABOUT_TITLE,
             (
                 "Advanced Tic Tac Toe\n\n"
-                "A polished desktop implementation of the "
-                "classic Tic Tac Toe game built using Python "
-                "and Tkinter.\n\n"
+                "Version 1.0\n\n"
+                "A polished desktop implementation of "
+                "the classic Tic Tac Toe game built "
+                "using Python and Tkinter.\n\n"
                 "Features:\n"
                 "• Human vs Human mode\n"
                 "• Human vs AI mode\n"
                 "• Three AI difficulty levels\n"
+                "• Persistent settings\n"
+                "• Persistent statistics\n"
                 "• Score tracking\n"
                 "• Clean graphical interface"
             ),
@@ -68,18 +88,63 @@ class DialogManager:
         x_wins: int,
         o_wins: int,
         draws: int,
-    ) -> None: 
-        # Displays the current match statistics 
+    ) -> None:
+        # Displays the current match statistics
+
+        total_games = (
+            x_wins
+            + o_wins
+            + draws
+        )
 
         messagebox.showinfo(
-            "Statistics",
+            STATISTICS_TITLE,
             (
-                f"Player X Wins : {x_wins}\n"
-                f"Player O Wins : {o_wins}\n"
-                f"Draws         : {draws}\n\n"
-                f"Total Games   : "
-                f"{x_wins + o_wins + draws}"
+                f"Games Played : "
+                f"{total_games}\n\n"
+                f"Player X Wins : "
+                f"{x_wins}\n"
+                f"Player O Wins : "
+                f"{o_wins}\n"
+                f"Draws         : "
+                f"{draws}"
             ),
+        )
+
+    @staticmethod
+    def show_information(
+        title: str,
+        message: str,
+    ) -> None:
+        # Displays an informational dialog
+
+        messagebox.showinfo(
+            title,
+            message,
+        )
+
+    @staticmethod
+    def show_warning(
+        title: str,
+        message: str,
+    ) -> None:
+        # Displays a warning dialog
+
+        messagebox.showwarning(
+            title,
+            message,
+        )
+
+    @staticmethod
+    def show_error(
+        title: str,
+        message: str,
+    ) -> None:
+        # Displays an error dialog
+
+        messagebox.showerror(
+            title,
+            message,
         )
 
 
