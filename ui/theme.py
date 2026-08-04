@@ -13,6 +13,9 @@ WINDOW_HEIGHT = 850
 
 WINDOW_RESIZABLE = False
 
+WINDOW_MIN_WIDTH = WINDOW_WIDTH
+WINDOW_MIN_HEIGHT = WINDOW_HEIGHT 
+
 # Colors
 
 BACKGROUND_COLOR = "#F4F6F8"
@@ -37,7 +40,13 @@ GRID_COLOR = "#D0D0D0"
 X_COLOR = "#1976D2"
 O_COLOR = "#D32F2F"
 
-WIN_HIGHLIGHT_COLOR = "#A5D6A7"
+WIN_HIGHLIGHT_COLOR = "#A5D6A7" 
+
+HIGHLIGHT_COLOR = "#FFF59D"
+
+DISABLED_BUTTON_COLOR = "#D6D6D6"
+
+STATUS_BAR_COLOR = "#ECEFF1" 
 
 # Fonts
 
@@ -84,7 +93,11 @@ CELL_HEIGHT = 2
 
 BOARD_PADDING = 20
 
-CELL_PADDING = 4
+CELL_PADDING = 4 
+
+BOARD_BORDER_WIDTH = 2
+
+BOARD_CORNER_RADIUS = 8 
 
 # Button Configuration
 
@@ -99,7 +112,11 @@ SECTION_SPACING = 15
 
 LABEL_PADDING = 5
 
-BUTTON_PADDING = 10
+BUTTON_PADDING = 10 
+
+WINDOW_MARGIN = 30
+
+BOARD_SPACING = 10 
 
 # Scoreboard
 
@@ -115,7 +132,15 @@ STATUS_DRAW = "It's a Draw!"
 
 STATUS_WINNER = "{} Wins!"
 
-STATUS_AI_THINKING = "AI is Thinking..."
+STATUS_AI_THINKING = "AI is Thinking..." 
+
+STATUS_GAME_OVER = "Game Over"
+
+STATUS_NEW_GAME = "New Game Started"
+
+STATUS_INVALID_MOVE = "Invalid Move"
+
+STATUS_AI_TURN = "Computer's Turn" 
 
 # Difficulty Labels
 
@@ -123,7 +148,9 @@ DIFFICULTY_EASY = "Easy"
 
 DIFFICULTY_MEDIUM = "Medium"
 
-DIFFICULTY_IMPOSSIBLE = "Impossible"
+DIFFICULTY_IMPOSSIBLE = "Impossible" 
+
+DIFFICULTY_LABEL = "Difficulty" 
 
 # Dialog Titles
 
@@ -133,7 +160,61 @@ RESET_TITLE = "Reset Game"
 
 ABOUT_TITLE = "About"
 
-STATISTICS_TITLE = "Statistics"
+STATISTICS_TITLE = "Statistics" 
+
+SETTINGS_TITLE = "Settings"
+
+CONFIRM_EXIT_TITLE = "Exit"
+
+CONFIRM_RESET_TITLE = "Reset Scores" 
+
+# Menu Labels
+
+MENU_GAME = "Game"
+
+MENU_OPTIONS = "Options"
+
+MENU_HELP = "Help"
+
+MENU_NEW_GAME = "New Game"
+
+MENU_RESET = "Reset Scores"
+
+MENU_EXIT = "Exit"
+
+MENU_SETTINGS = "Settings"
+
+MENU_ABOUT = "About"
+
+MENU_STATISTICS = "Statistics" 
+
+# Button Labels
+
+BUTTON_NEW_GAME = "New Game"
+
+BUTTON_RESET = "Reset"
+
+BUTTON_OK = "OK"
+
+BUTTON_CANCEL = "Cancel"
+
+BUTTON_CLOSE = "Close" 
+
+# Animation
+
+AI_MOVE_DELAY = 350
+
+ANIMATION_DELAY = 25
+
+WIN_FLASH_COUNT = 6 
+
+# Score Labels
+
+X_SCORE_TEXT = "X"
+
+O_SCORE_TEXT = "O"
+
+DRAW_SCORE_TEXT = "Draws" 
 
 # Miscellaneous
 
@@ -150,7 +231,9 @@ __all__ = [
     "WINDOW_TITLE",
     "WINDOW_WIDTH",
     "WINDOW_HEIGHT",
-    "WINDOW_RESIZABLE",
+    "WINDOW_RESIZABLE", 
+    "WINDOW_MIN_WIDTH",
+    "WINDOW_MIN_HEIGHT", 
 
     # Colors
     "BACKGROUND_COLOR",
@@ -167,7 +250,10 @@ __all__ = [
     "GRID_COLOR",
     "X_COLOR",
     "O_COLOR",
-    "WIN_HIGHLIGHT_COLOR",
+    "WIN_HIGHLIGHT_COLOR", 
+    "HIGHLIGHT_COLOR",
+    "DISABLED_BUTTON_COLOR",
+    "STATUS_BAR_COLOR",
 
     # Fonts
     "TITLE_FONT",
@@ -182,7 +268,9 @@ __all__ = [
     "CELL_WIDTH",
     "CELL_HEIGHT",
     "BOARD_PADDING",
-    "CELL_PADDING",
+    "CELL_PADDING", 
+    "BOARD_BORDER_WIDTH",
+    "BOARD_CORNER_RADIUS", 
 
     # Buttons
     "DEFAULT_BUTTON_WIDTH",
@@ -192,7 +280,9 @@ __all__ = [
     "OUTER_PADDING",
     "SECTION_SPACING",
     "LABEL_PADDING",
-    "BUTTON_PADDING",
+    "BUTTON_PADDING", 
+    "WINDOW_MARGIN",
+    "BOARD_SPACING", 
 
     # Scoreboard
     "SCORE_LABEL_WIDTH",
@@ -202,18 +292,54 @@ __all__ = [
     "STATUS_PLAYER_TURN",
     "STATUS_DRAW",
     "STATUS_WINNER",
-    "STATUS_AI_THINKING",
+    "STATUS_AI_THINKING", 
+    "STATUS_GAME_OVER",
+    "STATUS_NEW_GAME",
+    "STATUS_INVALID_MOVE",
+    "STATUS_AI_TURN", 
 
     # Difficulty
     "DIFFICULTY_EASY",
     "DIFFICULTY_MEDIUM",
-    "DIFFICULTY_IMPOSSIBLE",
+    "DIFFICULTY_IMPOSSIBLE", 
+    "DIFFICULTY_LABEL", 
 
     # Dialogs
     "GAME_OVER_TITLE",
     "RESET_TITLE",
     "ABOUT_TITLE",
-    "STATISTICS_TITLE",
+    "STATISTICS_TITLE", 
+    "SETTINGS_TITLE",
+    "CONFIRM_EXIT_TITLE",
+    "CONFIRM_RESET_TITLE", 
+
+    # Menu
+    "MENU_GAME",
+    "MENU_OPTIONS",
+    "MENU_HELP",
+    "MENU_NEW_GAME",
+    "MENU_RESET",
+    "MENU_EXIT",
+    "MENU_SETTINGS",
+    "MENU_ABOUT",
+    "MENU_STATISTICS",
+
+    # Buttons
+    "BUTTON_NEW_GAME",
+    "BUTTON_RESET",
+    "BUTTON_OK",
+    "BUTTON_CANCEL",
+    "BUTTON_CLOSE",
+
+    # Animation
+    "AI_MOVE_DELAY",
+    "ANIMATION_DELAY",
+    "WIN_FLASH_COUNT",
+
+    # Score Labels
+    "X_SCORE_TEXT",
+    "O_SCORE_TEXT",
+    "DRAW_SCORE_TEXT",
 
     # Misc
     "PLAYER_X",
