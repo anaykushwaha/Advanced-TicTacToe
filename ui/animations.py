@@ -1,32 +1,45 @@
-# animations.py 
-# Provides simple animation utilities used by the Tkinter interface 
+# animations.py
+# Provides simple animation utilities used by the Tkinter interface
 
-# Animations are intentionally lightweight to keep the application responsive 
-# while improving the overall user experience 
+# Animations are intentionally lightweight to keep the application responsive
+# while improving the overall user experience
 
-from tkinter import Button
+from collections.abc import Callable
+
+from tkinter import (
+    Button,
+    Widget,
+)
 
 from ui.theme import (
     BUTTON_COLOR,
     BUTTON_HOVER_COLOR,
     WIN_HIGHLIGHT_COLOR,
+    ANIMATION_DELAY,
+    WIN_FLASH_COUNT,
 )
 
 
-class AnimationManager: 
-    # Provides reusable animation helpers 
+class AnimationManager:
+    # Provides reusable animation helpers
 
     @staticmethod
-    def add_hover_effect(button, Button) -> None: 
-        # Adds a hover effect to a Tkinter button 
-        
-        def on_enter(event):
+    def add_hover_effect(
+        button: Button,
+    ) -> None:
+        # Adds a hover effect to a Tkinter button
+
+        def on_enter(
+            event,
+        ) -> None:
 
             button.configure(
                 background=BUTTON_HOVER_COLOR,
             )
 
-        def on_leave(event):
+        def on_leave(
+            event,
+        ) -> None:
 
             button.configure(
                 background=BUTTON_COLOR,
@@ -45,10 +58,18 @@ class AnimationManager:
     @staticmethod
     def flash_winning_cells(
         buttons: list[Button],
-        flashes: int = 6,
-        delay: int = 180,
-    ) -> None: 
-        # Flashes the winning buttons 
+        flashes: int = WIN_FLASH_COUNT,
+        delay: int = ANIMATION_DELAY,
+    ) -> None:
+        # Flashes the winning buttons
+
+        if not buttons:
+            return
+
+        original_colors = [
+            button.cget("background")
+            for button in buttons
+        ]
 
         def flash(
             count: int,
@@ -56,10 +77,13 @@ class AnimationManager:
 
             if count >= flashes:
 
-                for button in buttons:
+                for button, color in zip(
+                    buttons,
+                    original_colors,
+                ):
 
                     button.configure(
-                        background=BUTTON_COLOR,
+                        background=color,
                     )
 
                 return
@@ -78,29 +102,42 @@ class AnimationManager:
 
             buttons[0].after(
                 delay,
-                lambda: flash(count + 1),
+                lambda: flash(
+                    count + 1,
+                ),
             )
 
         flash(0)
 
     @staticmethod
-    def animate_button_press(button: Button) -> None: 
-        # Briefly changes the button color when it is pressed 
+    def animate_button_press(
+        button: Button,
+    ) -> None:
+        # Briefly changes the button color when it is pressed
+
+        original_color = button.cget(
+            "background",
+        )
 
         button.configure(
             background=BUTTON_HOVER_COLOR,
         )
 
         button.after(
-            100,
+            ANIMATION_DELAY * 4,
             lambda: button.configure(
-                background=BUTTON_COLOR,
+                background=original_color,
             ),
         )
 
     @staticmethod
-    def delay(widget, milliseconds: int, callback) -> None: 
-        # Executes a callback after a specified delay 
+    def delay(
+        widget: Widget,
+        milliseconds: int,
+        callback: Callable[[], None],
+    ) -> None:
+        # Executes a callback after a specified delay
+
         widget.after(
             milliseconds,
             callback,
