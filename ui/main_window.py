@@ -1,11 +1,19 @@
-# main_window.py 
-# Main controller for the graphical game application 
-# This class connects the backend game logic with the Tkinter UI 
+# main_window.py
+# Main controller for the graphical game application
+# This class connects the backend game logic with the Tkinter UI
 
 import tkinter as tk
 
-from game.game import Game
 from game.ai import AIPlayer
+from game.constants import (
+    PLAYER_X,
+    PLAYER_O,
+)
+from game.game import Game
+from game.settings import SettingsManager
+from game.statistics import StatisticsManager
+
+from ui.dialogs import DialogManager
 from ui.game_board import GameBoard
 from ui.theme import (
     WINDOW_TITLE,
@@ -19,29 +27,31 @@ from ui.theme import (
     OUTER_PADDING,
     SECTION_SPACING,
     STATUS_READY,
-    PLAYER_X,
-    PLAYER_O,
-    X_COLOR,
-    O_COLOR,
-    STATUS_READY,
     STATUS_PLAYER_TURN,
     STATUS_DRAW,
     STATUS_WINNER,
     STATUS_AI_THINKING,
+    X_COLOR,
+    O_COLOR,
 )
-from ui.dialogs import DialogManager 
 
-class MainWindow: 
-    # Main application window 
 
-    def __init__(self): 
-        # Create the application window and initialize all game components 
+class MainWindow:
+    # Main application window
+
+    def __init__(
+        self,
+    ) -> None:
+        # Creates the application window and initializes
+        # every game component
 
         # Window
 
         self.root = tk.Tk()
 
-        self.root.title(WINDOW_TITLE)
+        self.root.title(
+            WINDOW_TITLE,
+        )
 
         self.root.geometry(
             f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}"
@@ -56,19 +66,41 @@ class MainWindow:
             bg=BACKGROUND_COLOR,
         )
 
+        self.root.protocol(
+            "WM_DELETE_WINDOW",
+            self.exit_application,
+        )
+
+        # Managers
+
+        self.settings = SettingsManager()
+
+        self.statistics = StatisticsManager()
+
         # Game Engine
 
-        self.game = Game()
+        self.game = Game(
+            versus_ai=self.settings.get_setting(
+                "ai_enabled",
+            ),
+        )
 
-        self.ai = AIPlayer()
+        self.ai = AIPlayer(
+            self.settings.get_setting(
+                "difficulty",
+            ),
+        )
 
-        # Human vs Human by default
-        self.ai_enabled = False
+        self.ai_enabled = self.settings.get_setting(
+            "ai_enabled",
+        )
 
-        # Scores
+        # Session Scoreboard
 
         self.x_score = 0
+
         self.o_score = 0
+
         self.draws = 0
 
         # Tkinter Variables
@@ -91,18 +123,22 @@ class MainWindow:
 
         # UI Components
 
-        self.title_label = None
-        self.status_label = None
+        self.title_label: tk.Label | None = None
 
-        self.score_frame = None
+        self.status_label: tk.Label | None = None
 
-        self.game_board = None
+        self.score_frame: tk.Frame | None = None
+
+        self.game_board: GameBoard | None = None
 
         # Build the interface
+
         self._create_widgets()
 
-    def _create_widgets(self): 
-        # Creates every widget shown in the window 
+    def _create_widgets(
+        self,
+    ) -> None:
+        # Creates every widget displayed in the application
 
         # Title
 
@@ -130,7 +166,7 @@ class MainWindow:
             pady=SECTION_SPACING,
         )
 
-        # Score Frame
+        # Scoreboard
 
         self.score_frame = tk.Frame(
             self.root,
@@ -191,38 +227,44 @@ class MainWindow:
         self,
         row: int,
         col: int,
-    ) -> None: 
-        # Handles a click on the game board 
+    ) -> None:
+        # Handles a click on the game board
 
-        # Ignore clicks after the game has ended.
         if self.game.is_game_over():
             return
 
-        # Attempt to make the player's move.
-        if not self.game.make_move(row, col):
+        if not self.game.make_move(
+            row,
+            col,
+        ):
             return
 
         self._update_board()
 
-        # Check whether the move ended the game.
         if self._handle_game_end():
             return
 
-        # Allow the AI to play if enabled.
         if self.ai_enabled:
             self._perform_ai_move()
 
-    def _update_board(self) -> None: 
-        # Synchronizes the graphical board with the backend game state 
+    def _update_board(
+        self,
+    ) -> None:
+        # Synchronizes the graphical board with the backend game state
 
-        board = self.game.board.get_board()
+        board = self.game.get_board().get_board()
 
-        for row in range(len(board)):
-            for col in range(len(board[row])):
+        for row in range(
+            len(board),
+        ):
+
+            for col in range(
+                len(board[row]),
+            ):
 
                 symbol = board[row][col]
 
-                if symbol == "":
+                if not symbol:
                     continue
 
                 color = (
@@ -240,20 +282,28 @@ class MainWindow:
 
         self._update_status()
 
-    def _update_status(self) -> None: 
-        # Refreshes the state message shown beneath the title 
+    def _update_status(
+        self,
+    ) -> None:
+        # Updates the status message beneath the title
 
         if self.game.is_game_over():
             return
 
-        current_player = self.game.get_current_player()
+        current_player = (
+            self.game.get_current_player()
+        )
 
         self.status_var.set(
-            f"{current_player}'s Turn"
-        ) 
+            STATUS_PLAYER_TURN.format(
+                current_player.symbol,
+            )
+        )
 
-    def _handle_game_end(self) -> bool: 
-        # Checks whether the game has ended 
+    def _handle_game_end(
+        self,
+    ) -> bool:
+        # Handles the end of a completed game
 
         if not self.game.is_game_over():
             return False
@@ -263,64 +313,127 @@ class MainWindow:
         winner = self.game.get_winner()
 
         if winner is None:
+
             self.draws += 1
+
             self.draw_var.set(
                 f"Draws : {self.draws}"
             )
-            self.status_var.set(STATUS_DRAW) 
+
+            self.statistics.record_draw()
+
+            self.status_var.set(
+                STATUS_DRAW,
+            )
+
+            DialogManager.show_game_over(
+                STATUS_DRAW,
+            )
 
         else:
-            if winner == PLAYER_X:
+
+            if winner.symbol == PLAYER_X:
+
                 self.x_score += 1
+
                 self.x_score_var.set(
                     f"X : {self.x_score}"
                 )
 
             else:
+
                 self.o_score += 1
+
                 self.o_score_var.set(
                     f"O : {self.o_score}"
                 )
 
-            self.status_var.set(
-                STATUS_WINNER.format(winner) 
+            self.statistics.record_win(
+                winner.symbol,
+                self.ai_enabled,
             )
 
-            winning_cells = self.game.get_winning_positions()
+            self.status_var.set(
+                STATUS_WINNER.format(
+                    winner.name,
+                )
+            )
+
+            winning_cells = (
+                self.game.get_winning_positions()
+            )
 
             if winning_cells:
+
                 self.game_board.highlight_cells(
                     winning_cells,
-                    "#A5D6A7",
                 )
 
-        return True
+            DialogManager.show_game_over(
+                STATUS_WINNER.format(
+                    winner.name,
+                )
+            )
 
-    def _perform_ai_move(self) -> None: 
-        # Allows the AI player to make its move 
+        if DialogManager.ask_new_game():
+
+            self.new_game()
+
+        return True 
+
+    def _perform_ai_move(
+        self,
+    ) -> None:
+        # Allows the AI player to make its move
 
         if self.game.is_game_over():
             return
 
-        self.status_var.set(STATUS_AI_THINKING) 
+        self.status_var.set(
+            STATUS_AI_THINKING,
+        )
 
         self.root.update_idletasks()
 
-        row, col = self.ai.find_best_move(
-            self.game.board,
-            self.game.get_current_player(),
+        current_player = (
+            self.game.get_current_player()
         )
 
-        self.game.make_move(row, col)
+        opponent = (
+            self.game.get_player_by_symbol(
+                PLAYER_X
+                if current_player.symbol == PLAYER_O
+                else PLAYER_O
+            )
+        )
+
+        move = self.ai.choose_move(
+            self.game.get_board(),
+            current_player.symbol,
+            opponent.symbol,
+        )
+
+        if move is None:
+            return
+
+        row, col = move
+
+        self.game.make_move(
+            row,
+            col,
+        )
 
         self._update_board()
 
-        self._handle_game_end() 
+        self._handle_game_end()
 
-    def new_game(self) -> None: 
-        # Starts a new game while keeping the current scores 
+    def new_game(
+        self,
+    ) -> None:
+        # Starts a new game while keeping the current
+        # session scores
 
-        self.game.reset_game()
+        self.game.reset_board()
 
         self.game_board.clear_board()
 
@@ -330,56 +443,108 @@ class MainWindow:
             STATUS_READY,
         )
 
-    def reset_scores(self) -> None: 
-        # Resets all scoreboard values 
+    def reset_scores(
+        self,
+    ) -> None:
+        # Resets the current session scores
+
+        if not DialogManager.confirm_reset_scores():
+            return
 
         self.x_score = 0
+
         self.o_score = 0
+
         self.draws = 0
 
-        self.x_score_var.set("X : 0")
-        self.o_score_var.set("O : 0")
-        self.draw_var.set("Draws : 0")
+        self.x_score_var.set(
+            "X : 0",
+        )
+
+        self.o_score_var.set(
+            "O : 0",
+        )
+
+        self.draw_var.set(
+            "Draws : 0",
+        )
 
     def toggle_ai(
         self,
         enabled: bool,
-    ) -> None: 
-        # Enables or disables AI mode 
+    ) -> None:
+        # Enables or disables AI mode
 
         self.ai_enabled = enabled
 
-        self.new_game()
+        self.settings.set_setting(
+            "ai_enabled",
+            enabled,
+        )
+
+        self.game = Game(
+            versus_ai=enabled,
+        )
+
+        self.game_board.clear_board()
+
+        self.game_board.enable_board()
+
+        self.status_var.set(
+            STATUS_READY,
+        )
 
     def set_ai_difficulty(
         self,
         difficulty: str,
-    ) -> None: 
-        # Changes the AI difficulty 
+    ) -> None:
+        # Changes the AI difficulty
 
         self.ai.set_difficulty(
             difficulty,
         )
 
-    def run(self) -> None: 
-        # Starts the Tkinter event loop 
+        self.settings.set_setting(
+            "difficulty",
+            difficulty,
+        )
 
-        self.root.mainloop() 
+    def show_about(
+        self,
+    ) -> None:
+        # Displays the About dialog
 
-    def show_about(self):
         DialogManager.show_about()
 
+    def show_statistics(
+        self,
+    ) -> None:
+        # Displays the current session statistics
 
-    def show_statistics(self):
         DialogManager.show_statistics(
             self.x_score,
             self.o_score,
             self.draws,
         )
 
+    def exit_application(
+        self,
+    ) -> None:
+        # Saves application data before closing
 
-    def exit_application(self):
+        self.settings.save_settings()
+
+        self.statistics.save_statistics()
+
         self.root.destroy()
+
+    def run(
+        self,
+    ) -> None:
+        # Starts the Tkinter event loop
+
+        self.root.mainloop()
+
 
 __all__ = [
     "MainWindow",
