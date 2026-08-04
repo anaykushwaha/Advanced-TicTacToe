@@ -207,9 +207,7 @@ class Board:
         for col in range(
             BOARD_SIZE,
         ):
-
             symbol = self.board[0][col]
-
             if symbol == EMPTY_CELL:
                 continue
 
@@ -258,7 +256,116 @@ class Board:
         ):
             return symbol
 
-        return None
+        return None 
+
+    def get_winning_positions(self) -> List[Tuple[int, int]]: 
+        # Returns the coordinates of the winning line 
+        # Returns an empty list if there is no winner 
+
+        # Check rows
+
+        for row in range(
+            BOARD_SIZE,
+        ):
+            symbol = self.board[row][0]
+            if (
+                symbol != EMPTY_CELL
+                and all(
+                    self.board[row][col] == symbol
+                    for col in range(
+                        BOARD_SIZE,
+                    )
+                )
+            ):
+                return [
+                    (
+                        row,
+                        col,
+                    )
+                    for col in range(
+                        BOARD_SIZE,
+                    )
+                ]
+
+        # Check columns
+
+        for col in range(
+            BOARD_SIZE,
+        ):
+            symbol = self.board[0][col]
+            if (
+                symbol != EMPTY_CELL
+                and all(
+                    self.board[row][col] == symbol
+                    for row in range(
+                        BOARD_SIZE,
+                    )
+                )
+            ):
+
+                return [
+                    (
+                        row,
+                        col,
+                    )
+                    for row in range(
+                        BOARD_SIZE,
+                    )
+                ]
+
+        # Check main diagonal
+
+        symbol = self.board[0][0]
+
+        if (
+            symbol != EMPTY_CELL
+            and all(
+                self.board[i][i] == symbol
+                for i in range(
+                    BOARD_SIZE,
+                )
+            )
+        ):
+
+            return [
+                (
+                    i,
+                    i,
+                )
+                for i in range(
+                    BOARD_SIZE,
+                )
+            ]
+
+        # Check secondary diagonal
+
+        symbol = self.board[0][
+            BOARD_SIZE - 1
+        ]
+
+        if (
+            symbol != EMPTY_CELL
+            and all(
+                self.board[i][
+                    BOARD_SIZE - 1 - i
+                ] == symbol
+                for i in range(
+                    BOARD_SIZE,
+                )
+            )
+        ):
+
+            return [
+                (
+                    i,
+                    BOARD_SIZE - 1 - i,
+                )
+                for i in range(
+                    BOARD_SIZE,
+                )
+            ]
+
+        return [] 
 
     def is_draw(
         self,
