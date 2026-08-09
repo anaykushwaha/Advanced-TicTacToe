@@ -2,7 +2,6 @@
 # Contains reusable validation functions used throughout the game project 
 
 from typing import Any
-
 from game.constants import (
     AI_DIFFICULTIES,
     BOARD_SIZE,
