@@ -10,17 +10,21 @@ def main() -> None:
     try:
         application = MainWindow()
         application.run()
+
     except KeyboardInterrupt:
-        print(
-            "\nApplication closed by user."
-        )
+        print("\nApplication closed by user")
+
     except Exception as error:
-        print(
-            "An unexpected error occurred:"
-        )
-        print(error) 
+        print("An unexpected error occurred:")
+        print(error)
+        raise
 
 
 if __name__ == "__main__":
-    main() 
+    main()
+
+
+__all__ = [
+    "main",
+]
 
