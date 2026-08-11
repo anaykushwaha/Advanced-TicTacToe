@@ -1,60 +1,164 @@
-# ----------------------------
-# Python Cache
-# ----------------------------
+# Python bytecode and cache files
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyo
+*.pyd
 
-# ----------------------------
-# Virtual Environments
-# ----------------------------
+# Python virtual environments
 venv/
 .venv/
 env/
 ENV/
+env.bak/
+venv.bak/
 
-# ----------------------------
-# IDE Settings
-# ----------------------------
-.vscode/
-.idea/
-
-# ----------------------------
-# Operating System Files
-# ----------------------------
-.DS_Store
-Thumbs.db
-
-# ----------------------------
-# Build Files
-# ----------------------------
+# Python packaging and build artifacts
 build/
 dist/
 *.egg-info/
+.eggs/
+MANIFEST
+pip-wheel-metadata/
+wheels/
 
-# ----------------------------
-# Log Files
-# ----------------------------
+# Python tooling and test caches
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.pyre/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.ruff_cache/
+
+# Type checking and linting caches
+.pyright/
+.pyre/
+.ruff_cache/
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.orig
+*~
+
+# Jupyter Notebook temporary files
+.ipynb_checkpoints/
+
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini
+
+# Windows thumbnail and explorer files
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+
+# macOS resource files
+.AppleDouble
+.LSOverride
+
+# Linux desktop files
+.directory
+.Trash-*
+
+# Application logs
 *.log
+logs/
 
-# ----------------------------
-# Python Environment
-# ----------------------------
+# Local application data
+data/*.json
+
+# Local configuration files
+*.local
+*.local.*
+.env
+.env.*
+!.env.example
+
+# Python version manager files
 .python-version
 
-# ----------------------------
-# Test Cache
-# ----------------------------
-.pytest_cache/
+# Local development configuration
+*.code-workspace
 
-# ----------------------------
-# Coverage Reports
-# ----------------------------
-.coverage
-htmlcov/
+# Debugging and profiling files
+*.prof
+*.lprof
+*.pyde
+*.trace
 
-# ----------------------------
-# Miscellaneous
-# ----------------------------
+# Coverage and test reports
+test-results/
+test-results.xml
+coverage/
+coverage.html
+
+# Temporary files and generated artifacts
 *.tmp
-*.bak 
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# OS and application lock files
+*.lock
+
+# Compiled and binary files
+*.dll
+*.so
+*.dylib
+*.exe
+
+# Generated documentation artifacts
+docs/_build/
+site/
+
+# PyInstaller artifacts
+*.manifest
+*.spec
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# Local environment and secret configuration
+secrets.json
+credentials.json
+config.local.json
+
+# Generated game/application files
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary screenshots and recordings
+screenshots/
+recordings/
+
+# Personal notes and local project files
+notes/
+.local/ 
+
