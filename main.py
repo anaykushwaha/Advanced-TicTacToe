@@ -5,26 +5,31 @@
 from ui.main_window import MainWindow
 
 def main() -> None:
-    # Starts the application
+    # Starts the application.
 
     try:
         application = MainWindow()
         application.run()
 
     except KeyboardInterrupt:
-        print("\nApplication closed by user")
+        print(
+            "\nApplication closed by user."
+        )
 
     except Exception as error:
-        print("An unexpected error occurred:")
-        print(error)
+        print(
+            "An unexpected error occurred:"
+        )
+        print(
+            f"Error: {error}"
+        )
         raise
 
 
 if __name__ == "__main__":
     main()
 
-
 __all__ = [
     "main",
-]
+] 
 
