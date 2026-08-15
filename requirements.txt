@@ -1,4 +1,10 @@
-# Advanced Tic Tac Toe - Python Dependencies 
+# Advanced Tic Tac Toe 
+# Python package dependencies 
 
 Pillow>=11.0.0 
 pygame>=2.6.0 
+
+# This project currently uses only Python standard-library modules 
+# Tkinter is included with standard Python installations on most platforms 
+
+# No third-party packages are currently required 
